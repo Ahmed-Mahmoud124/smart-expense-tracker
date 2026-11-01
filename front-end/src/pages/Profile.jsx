@@ -39,9 +39,9 @@ const SectionCard = ({ title, icon, children }) => (
 
 // ── Profile page ──────────────────────────────────────────────────────────────
 const Profile = () => {
-  const { user, updateUser, logout } = useAuth();
+  const { updateUser, logout } = useAuth();
 
-  const [profile,    setProfile]    = useState(null);
+  const [ ,    setProfile]    = useState(null);
   const [stats,      setStats]      = useState(null);
   const [goals,      setGoals]      = useState(null);
   const [loading,    setLoading]    = useState(true);
