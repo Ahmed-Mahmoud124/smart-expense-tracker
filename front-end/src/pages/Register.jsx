@@ -16,42 +16,42 @@ const CURRENCIES = [
 ];
 
 const INITIAL_FORM = {
-  name           : '',
-  email          : '',
-  password       : '',
+  name: '',
+  email: '',
+  password: '',
   confirmPassword: '',
-  currency       : 'USD',
+  currency: 'USD',
 };
 
 const getPasswordStrength = (password) => {
   if (!password) return { score: 0, label: '', color: '' };
   let score = 0;
-  if (password.length >= 8)                            score++;
-  if (/[A-Z]/.test(password))                         score++;
-  if (/[a-z]/.test(password))                         score++;
-  if (/[0-9]/.test(password))                         score++;
+  if (password.length >= 8) score++;
+  if (/[A-Z]/.test(password)) score++;
+  if (/[a-z]/.test(password)) score++;
+  if (/[0-9]/.test(password)) score++;
   if (/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) score++;
 
   const map = {
-    0: { label: '',          color: '' },
+    0: { label: '', color: '' },
     1: { label: 'Very Weak', color: 'var(--color-expense)' },
-    2: { label: 'Weak',      color: 'var(--color-expense)' },
-    3: { label: 'Fair',      color: 'var(--color-warning)' },
-    4: { label: 'Good',      color: 'var(--color-info)' },
-    5: { label: 'Strong',    color: 'var(--color-income)' },
+    2: { label: 'Weak', color: 'var(--color-expense)' },
+    3: { label: 'Fair', color: 'var(--color-warning)' },
+    4: { label: 'Good', color: 'var(--color-info)' },
+    5: { label: 'Strong', color: 'var(--color-income)' },
   };
   return { score, ...map[score] };
 };
 
 const Register = () => {
-  const [form,     setForm]     = useState(INITIAL_FORM);
-  const [errors,   setErrors]   = useState({});
-  const [loading,  setLoading]  = useState(false);
+  const [form, setForm] = useState(INITIAL_FORM);
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState('');
 
   const { register } = useAuth();
-  const navigate     = useNavigate();
-  const pwStrength   = getPasswordStrength(form.password);
+  const navigate = useNavigate();
+  const pwStrength = getPasswordStrength(form.password);
 
   const validate = () => {
     const e = {};
@@ -83,8 +83,8 @@ const Register = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
-    if (errors[name])  setErrors(prev => ({ ...prev, [name]: '' }));
-    if (apiError)      setApiError('');
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
+    if (apiError) setApiError('');
   };
 
   const handleSubmit = async (e) => {
@@ -100,8 +100,8 @@ const Register = () => {
 
     try {
       await register({
-        name    : form.name.trim(),
-        email   : form.email.trim(),
+        name: form.name.trim(),
+        email: form.email.trim(),
         password: form.password,
         currency: form.currency,
       });
@@ -128,16 +128,16 @@ const Register = () => {
         {/* API Error */}
         {apiError && (
           <div style={{
-            background   : 'var(--color-expense-bg)',
-            border       : '1px solid var(--color-expense)',
-            borderRadius : 'var(--radius-md)',
-            padding      : '12px 16px',
-            marginBottom : '20px',
-            fontSize     : 'var(--text-sm)',
-            color        : 'var(--color-expense)',
-            display      : 'flex',
-            alignItems   : 'center',
-            gap          : '8px',
+            background: 'var(--color-expense-bg)',
+            border: '1px solid var(--color-expense)',
+            borderRadius: 'var(--radius-md)',
+            padding: '12px 16px',
+            marginBottom: '20px',
+            fontSize: 'var(--text-sm)',
+            color: 'var(--color-expense)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
           }}>
             <span>⚠️</span>
             {apiError}
@@ -207,21 +207,35 @@ const Register = () => {
               value={form.password}
               onChange={handleChange}
             />
+            {/* Password requirements */}
+            <div style={{
+              marginTop: '8px',
+              fontSize: 'var(--text-xs)',
+              color: 'var(--color-text-secondary)',
+              lineHeight: 1.8,
+            }}>
+              <strong>Password must contain:</strong>
+              <div>• At least 8 characters</div>
+              <div>• At least one uppercase letter (A–Z)</div>
+              <div>• At least one lowercase letter (a–z)</div>
+              <div>• At least one number (0–9)</div>
+              <div>• At least one special character</div>
+            </div>
             {/* Strength meter */}
             {form.password && (
               <div style={{ marginTop: 6 }}>
                 <div style={{
-                  display            : 'grid',
+                  display: 'grid',
                   gridTemplateColumns: 'repeat(5, 1fr)',
-                  gap                : '3px',
-                  marginBottom       : '4px',
+                  gap: '3px',
+                  marginBottom: '4px',
                 }}>
-                  {[1,2,3,4,5].map(i => (
+                  {[1, 2, 3, 4, 5].map(i => (
                     <div key={i} style={{
-                      height      : 3,
+                      height: 3,
                       borderRadius: 2,
-                      background  : i <= pwStrength.score ? pwStrength.color : 'var(--color-border)',
-                      transition  : 'background 300ms ease',
+                      background: i <= pwStrength.score ? pwStrength.color : 'var(--color-border)',
+                      transition: 'background 300ms ease',
                     }} />
                   ))}
                 </div>
